@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
                 const Icon(Icons.message, size: 80),
                 const SizedBox(height: 50),
                 const Text('Welcome back you'),
