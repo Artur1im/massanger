@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:messenger/widget/my_button.dart';
 import 'package:messenger/widget/my_text_field.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+
+  const RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  void singIn() {}
+  final confirmController = TextEditingController();
 
+  void singUp() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -27,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const Icon(Icons.message, size: 80),
                 const SizedBox(height: 50),
-                const Text('Welcome back you'),
+                const Text("Let's create an account for you!"),
                 const SizedBox(height: 25),
                 MTF(
                     controller: emailController,
@@ -39,7 +42,12 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'Password',
                     obscureText: true),
                 const SizedBox(height: 25),
-                MyButton(onTap: singIn, text: "Sign In"),
+                MTF(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: true),
+                const SizedBox(height: 25),
+                MyButton(onTap: singUp, text: "Sign Up"),
                 const SizedBox(height: 25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
