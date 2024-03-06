@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:messenger/services/auth/auth_service.dart';
 
@@ -28,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     try {
-      await authService.singInWithEmailAndPassword(
+      await authService.singUpWithEmailandPassword(
           emailController.text, passwordController.text);
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -62,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: true),
                 const SizedBox(height: 25),
                 MTF(
-                    controller: passwordController,
+                    controller: confirmPasswordController,
                     hintText: 'Password',
                     obscureText: true),
                 const SizedBox(height: 25),
