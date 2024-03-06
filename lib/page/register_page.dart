@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/services/auth/auth_service.dart';
+
 import 'package:messenger/widget/my_button.dart';
 import 'package:messenger/widget/my_text_field.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -14,9 +17,25 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  void singUp() {}
+  void singUp() async {
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password do not match!')));
+      return;
+    }
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    try {
+      await authService.singInWithEmailAndPassword(
+          emailController.text, passwordController.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
