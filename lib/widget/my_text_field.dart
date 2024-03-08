@@ -23,7 +23,7 @@ class MTF extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade200),
             ),
-            fillColor: Colors.grey[400],
+            fillColor: Colors.grey[350],
             filled: true,
             hintStyle: const TextStyle(color: Colors.white)));
   }

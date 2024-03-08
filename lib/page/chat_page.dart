@@ -37,13 +37,16 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(widget.receiveruserEmail),
       ),
-      body: Column(children: [
-        Expanded(
-          child: _bildMessageList(),
-        ),
-        _buildMessangeInput(),
-        const SizedBox(height: 25)
-      ]),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          Expanded(
+            child: _bildMessageList(),
+          ),
+          _buildMessangeInput(),
+          const SizedBox(height: 10)
+        ]),
+      ),
     );
   }
 
@@ -58,12 +61,17 @@ class _ChatPageState extends State<ChatPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          return ListView(
-              children: snapshot.data!.docs
-                  .map(
-                    (document) => _buildMessageItem(document),
-                  )
-                  .toList());
+          return SingleChildScrollView(
+            reverse: true,
+            child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: snapshot.data!.docs
+                    .map(
+                      (document) => _buildMessageItem(document),
+                    )
+                    .toList()),
+          );
         });
   }
 
@@ -74,27 +82,24 @@ class _ChatPageState extends State<ChatPage> {
         : Alignment.centerLeft;
     return Container(
       alignment: aligment,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-            crossAxisAlignment:
-                (data['senderId'] == _firebaseAuth.currentUser!.uid)
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-            mainAxisAlignment:
-                (data['senderId'] == _firebaseAuth.currentUser!.uid)
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.start,
-            children: [
-              Text(
-                data['senderEmail'],
-              ),
-              const SizedBox(height: 5),
-              ChatBubble(
-                message: data['message'],
-              ),
-            ]),
-      ),
+      child: Column(
+          crossAxisAlignment:
+              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+          mainAxisAlignment:
+              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+          children: [
+            Text(
+              data['senderEmail'],
+            ),
+            const SizedBox(height: 5),
+            ChatBubble(
+              message: data['message'],
+            ),
+          ]),
     );
   }
 
@@ -109,9 +114,15 @@ class _ChatPageState extends State<ChatPage> {
         )),
         IconButton(
             onPressed: sendMessage,
-            icon: const Icon(
-              Icons.arrow_upward,
-              size: 40,
+            icon: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.purple[300]),
+              child: const Icon(
+                Icons.arrow_upward_rounded,
+                color: Colors.white,
+                size: 40,
+              ),
             ))
       ],
     );

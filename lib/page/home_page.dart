@@ -24,8 +24,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
-        actions: [IconButton(onPressed: singOut, icon: Icon(Icons.logout))],
+        title: const Text('Chats'),
+        centerTitle: true,
+        actions: [
+          IconButton(onPressed: singOut, icon: const Icon(Icons.logout))
+        ],
       ),
       body: _buildUserList(),
     );
@@ -36,10 +39,10 @@ class _HomePageState extends State<HomePage> {
       stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error');
+          return const Text('Error');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         return ListView(
           children: snapshot.data!.docs
@@ -55,7 +58,14 @@ class _HomePageState extends State<HomePage> {
 
     if (_auth.currentUser!.email != data['email']) {
       return ListTile(
-          title: Text(data['email']),
+          title: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black12,
+              ),
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(data['email']))),
           onTap: () {
             Navigator.push(
                 context,
@@ -63,6 +73,7 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) => ChatPage(
                           receiverUserID: data['uid'],
                           receiveruserEmail: data['email'],
+                          // receiverUserEmail: '',
                         )));
           });
     } else {
