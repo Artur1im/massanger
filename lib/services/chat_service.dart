@@ -38,7 +38,7 @@ class ChatService extends ChangeNotifier {
     return _fireStore
         .collection('chat_rooms')
         .doc(chatRoomId)
-        .collection('message')
+        .collection('messages')
         .orderBy('timestamp', descending: false)
         .snapshots();
   }

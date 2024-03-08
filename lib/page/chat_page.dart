@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/services/chat/chat_service.dart';
+import 'package:messenger/services/chat_service.dart';
+import 'package:messenger/widget/chat_bubble.dart';
 import 'package:messenger/widget/my_text_field.dart';
 
 class ChatPage extends StatefulWidget {
@@ -41,6 +42,7 @@ class _ChatPageState extends State<ChatPage> {
           child: _bildMessageList(),
         ),
         _buildMessangeInput(),
+        const SizedBox(height: 25)
       ]),
     );
   }
@@ -51,10 +53,10 @@ class _ChatPageState extends State<ChatPage> {
             widget.receiverUserID, _firebaseAuth.currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text('Error' + snapshot.error.toString());
+            return Text('Error${snapshot.error}');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
           return ListView(
               children: snapshot.data!.docs
@@ -72,12 +74,27 @@ class _ChatPageState extends State<ChatPage> {
         : Alignment.centerLeft;
     return Container(
       alignment: aligment,
-      child: Column(children: [
-        Text(
-          data['senderEmail'],
-        ),
-        Text(data['message']),
-      ]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+            crossAxisAlignment:
+                (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+            mainAxisAlignment:
+                (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+            children: [
+              Text(
+                data['senderEmail'],
+              ),
+              const SizedBox(height: 5),
+              ChatBubble(
+                message: data['message'],
+              ),
+            ]),
+      ),
     );
   }
 
