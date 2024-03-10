@@ -5,12 +5,14 @@ import 'package:messenger/firebase_options.dart';
 import 'package:messenger/services/auth/auth_gate.dart';
 import 'package:messenger/services/auth/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'services/firebase_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNoitifications();
   runApp(ChangeNotifierProvider(
     create: (context) => AuthService(),
     child: const MyApp(),

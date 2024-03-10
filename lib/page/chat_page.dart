@@ -65,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
             reverse: true,
             child: ListView(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: snapshot.data!.docs
                     .map(
                       (document) => _buildMessageItem(document),
