@@ -2,10 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger/firebase_options.dart';
+import 'package:messenger/page/notification_screen.dart';
 import 'package:messenger/services/auth/auth_gate.dart';
 import 'package:messenger/services/auth/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_api.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +35,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      navigatorKey: navigatorKey,
       home: const AuthGate(),
+      routes: {
+        NotificationScreen.route: (context) => const NotificationScreen()
+      },
     );
   }
 }
